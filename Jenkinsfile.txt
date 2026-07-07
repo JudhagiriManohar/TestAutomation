@@ -3,22 +3,36 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                echo 'Getting code from GitHub'
+                git branch: 'main',
+                    url: 'https://github.com/JudhagiriManohar/TestAutomation.git'
             }
         }
 
-        stage('Run Tests') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Running automation tests'
+                bat 'npm install'
             }
         }
 
-        stage('Finished') {
+        stage('Install Playwright Browsers') {
             steps {
-                echo 'Build completed'
+                bat 'npx playwright install'
             }
+        }
+
+        stage('Run Playwright Tests') {
+            steps {
+                bat 'npx playwright test'
+            }
+        }
+
+    }
+
+    post {
+        always {
+            echo 'Test execution completed'
         }
     }
 }
