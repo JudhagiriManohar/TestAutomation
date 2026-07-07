@@ -37,9 +37,16 @@ pipeline {
 
     }
 
-    post {
+     post {
         always {
-            echo 'Test execution completed'
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'Playwright HTML Report'
+            ])
         }
     }
 }
